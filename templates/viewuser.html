@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %} View User | Library{% endblock %}
+
+{% block content %}
+
+<style>
+.btn{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:rgba(95, 95, 105, 1);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.btn:hover {
+    background-color: rgba(33, 32, 32, 1);
+    color: white;
+}
+</style> 
+
+ <h2 class="text-center mb-5">Details of {{user.full_name}} </h2>
+
+
+
+ <div class="card card-secondary card-outline mt-4" style="width: 60%; margin: auto;">
+  <div class="card-header">
+    <h3 class="card-title">Details of {{ user.full_name }}</h3>
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-4">Library ID:</dt>
+      <dd class="col-sm-8">{{ user.id }}</dd>
+
+      <dt class="col-sm-4">Full Name:</dt>
+      <dd class="col-sm-8">{{ user.full_name }}</dd>
+
+      <dt class="col-sm-4">Email:</dt>
+      <dd class="col-sm-8">{{ user.email }}</dd>
+
+      <dt class="col-sm-4">Phone:</dt>
+      <dd class="col-sm-8">{{ user.phone_no }}</dd>
+
+      <dt class="col-sm-4">Address:</dt>
+      <dd class="col-sm-8">{{ user.address }}</dd>
+    </dl>
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'users' %}" class="btn btn-secondary">Back to List</a>
+  </div>
+</div>
+
+
+
+
+{% comment %} 
+
+<div class="whole_cont d-flex gap-1 ms-5">
+        <div class="container text-center mt-5" style="width: 50%; text-align: center;">
+
+            <dl>
+                <div class="d-flex">
+                    <dt class="me-2">Library id:</dt>
+                    <dd>{{user.id}}</dd>
+                </div>
+                
+                
+                <div class="d-flex">
+                    <dt class="me-2">Full Name:</dt>
+                    <dd>{{user.full_name}}</dd>
+                </div>
+                
+
+                <div class="d-flex">
+                    <dt class="me-2">Email id:</dt>
+                    <dd>{{user.email}}</dd>
+                </div>
+                
+
+                <div class="d-flex">
+                    <dt class="me-2">phone No:</dt>
+                    <dd>{{user.phone_no}}</dd>
+                </div>
+                
+
+                <div class="d-flex">
+                    <dt class="me-2">address:</dt>
+                    <dd>{{user.address}}</dd>
+                </div>
+
+
+            </dl>
+
+        <a href="{% url 'users' %}" class="btn mt-5 ms-3">Cancel</a>
+
+
+        </div> {% endcomment %}
+
+{% endblock %}

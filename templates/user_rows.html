@@ -1,0 +1,56 @@
+ {% for user in users %}
+                        {% if user.status != '5' %}
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td>{{user.full_name}}</td>  
+                    <td>{{user.email}}</td>
+                    <td>{{user.phone_no}}</td>
+                    <td>{{user.address}}</td>
+
+                    <td>
+                    
+                            <a href="{% url 'viewuser' user.id %}" class="btn btn-sm btn-primary">
+                                <i class="nav-icon fas fa-eye "></i>
+                            </a>
+
+                            {% comment %} <a href="{% url 'edituser' user.id %}" class="nav-link btn-sm btn-warning text-white">
+                                <i class="nav-icon fas fa-edit bi bi-pencil"></i>
+                                    <i class="bi bi-pencil"></i>
+                                </a> {% endcomment %}
+                             <a href="{% url 'edituser' user.id %}" class="btn btn-sm btn-warning text-white">
+                                <i class="nav-icon fas fa-edit bi bi-pencil"></i>
+                            </a> 
+
+                            {% if user.has_active_borrow %}
+
+                                <span data-bs-toggle="tooltip" data-bs-placement="left" 
+                                title="This user has an active borrow record, cannot delete.">
+                                <a href="{% url 'deleteuser' user.id %}"
+                                class="btn btn-sm btn-secondary disabled" 
+                                tabindex="-1" aria-disabled="true">
+                                <i class="nav-icon fas fa-trash"></i>
+                                </a>
+                            </span>
+
+                                {% comment %} <a href="{% url 'deleteuser' user.id %}" class="btn btn-sm btn-secondary delete-btn disabled" data-active="true"
+                                data-bs-toggle = "tooltip"
+                                data-bs-placement =  "left"
+                                title = "This user has an active borrow record, cannot delete.">
+                                    <i class="bi bi-trash"></i>
+                                    </a> {% endcomment %}
+                            {% else %}
+                                <a href="{% url 'deleteuser' user.id %}" class="btn btn-sm btn-danger delete-btn" data-active="false">
+                                    <i class="nav-icon fas fa-trash"></i>
+                                    </a>
+                            {% endif %}
+                        
+                        </td>
+
+                </tr>
+                {% endif %}
+            {% empty %}
+               
+                <tr>
+                    <td>No active users found</td>
+                </tr>
+            {% endfor %}

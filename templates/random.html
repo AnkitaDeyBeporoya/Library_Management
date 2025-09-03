@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Library Management Page{% endblock %}</title>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'adminlte/plugins/bootstrap/css/bootstrap.min.css' %}">
+  
+<link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/all.min.css' %}">
+  
+<link rel="stylesheet" href="{% static 'adminlte/dist/css/adminlte.min.css' %}">
+  
+
+
+</head>
+<body>
+<!-- <h1>Home page</h1> -->
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+ <a href="{% url 'home' %}" class="brand-link">
+      <i class="fas fa-book-reader brand-image img-circle elevation-3" style="color:white; margin-left:10px;"></i>
+      <span class="brand-text font-weight-light">Library</span>
+    </a>
+<div class="sidebar">
+
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+        <li class="nav-header">Admin</li>
+
+        <li class="nav-item">
+          <a href="{% url 'home' %}"
+             class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+
+        <li class="nav-header">Management</li>
+
+        <li class="nav-item">
+          <a href="{% url 'users' %}"
+             class="nav-link {% if request.resolver_match.url_name == 'users' %}active{% endif %}">
+            <i class="nav-icon fas fa-users"></i>
+            <p>Users</p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{% url 'books' %}" 
+            class="nav-link {% if request.resolver_match.url_name == 'books' %}active{% endif %}">
+            <i class="nav-icon fas fa-book"></i>
+            <p>Books</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{% url 'open_records' %}" 
+            class="nav-link {% if request.resolver_match.url_name == 'open_records' %}active{% endif %}">
+            <i class="nav-icon fas fa-folder-open"></i>
+            <p>Open Records</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{% url 'closed_records' %}" 
+            class="nav-link {% if request.resolver_match.url_name == 'closed_records' %}active{% endif %}">
+            <i class="nav-icon fas fa-archive"></i>
+            <p>closed_records</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="{% url 'login' %}" 
+            class="nav-link ">
+            <i class="nav-icon fas fa-sign-out-alt"></i>
+            <p>Logout</p>
+            </a>
+        </li>
+    </ul>
+</nav>
+</div>
+</aside>
+
+<div class="main-content">
+    {% block content %}
+
+    {% endblock %}
+</div>
+<script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'adminlte/dist/js/adminlte.min.js' %}"></script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Library Management Page{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+{% load static %}
+<link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/all.min.css' %}">
+<link rel="stylesheet" href="{% static 'adminlte/dist/css/adminlte.min.css' %}">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .sidebar{
+            background-color: #343a40;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            width: 250px;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            color: #adb5bd;
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .sidebar a:hover {
+            color: white;
+            background-color: #495057;
+        }
+        .sidebar a.active {
+            color: white;
+            background-color: #051b31ff;
+        } 
+
+        .main-content{
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .col{
+            gap: 4;
+        }
+
+        .card{
+            border-radius: 7px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+        .card:hover{
+            transform: translateY(-5px);
+        }
+        .card a {
+            color: #060606;
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .card a:hover {
+            /* color: rgb(70, 69, 69); */
+            font-size: large;
+            /* background-color: #9c9e9f; */
+        }
+       
+
+
+    </style>
+
+</head>
+<body>
+<!-- <h1>Home page</h1> -->
+
+<div class="sidebar">
+    <h4 class="px-3 mb-4">Library</h4>
+    <div class="mb-4">
+        <h6 class="ms-3">Admin</h6>
+        <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Dashboard</a>
+    </div>
+    <div class="mb-4">
+        <h6 class="ms-3">Management</h6>
+        <a href="{% url 'users' %}">Users</a>
+        <a href="{% url 'books' %}">Books</a>
+        <a href="{% url 'open_records' %}">Open Records</a>
+        <a href="{% url 'closed_records' %}">Closed Records</a>
+    </div>
+    <div class="mt-5" style="font-size: large;">
+        <a href="{% url 'login' %}">Logout</a>
+    </div>
+
+</div>
+<div class="main-content">
+    {% block content %}
+
+    {% endblock %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/js/adminlte.min.js"></script>
+<script src="{% static 'myapp/adminlte/js/adminlte.min.js' %}"></script>
+<script src="{% static 'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'adminlte/dist/js/adminlte.min.js' %}"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

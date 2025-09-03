@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %} View Book | Library{% endblock %}
+
+{% block content %}
+
+<style>
+.btn{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:rgba(95, 95, 105, 1);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.btn:hover {
+    background-color: rgba(33, 32, 32, 1);
+    color: white;
+}
+</style> 
+
+ <h2 class="text-center">Details of {{book.book_name}} </h2>
+
+<div class="card card-secondary card-outline mt-4" style="width: 60%; margin: auto;">
+  <div class="card-header">
+    <h3 class="card-title">Book Details</h3>
+  </div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-4">Book ID:</dt>
+      <dd class="col-sm-8">{{ book.id }}</dd>
+
+      <dt class="col-sm-4">Book Name:</dt>
+      <dd class="col-sm-8">{{ book.book_name }}</dd>
+
+      <dt class="col-sm-4">Author:</dt>
+      <dd class="col-sm-8">{{ book.author }}</dd>
+
+      <dt class="col-sm-4">Stock:</dt>
+      <dd class="col-sm-8">{{ book.stock }}</dd>
+
+      <dt class="col-sm-4">Available Copies:</dt>
+      <dd class="col-sm-8">{{ book.available }}</dd>
+    </dl>
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'books' %}" class="btn btn-secondary">Back to List</a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} 
+<div class="whole_cont d-flex gap-1 ms-5">
+        <div class="container text-center mt-5" style="width: 50%; text-align: center;">
+
+            <dl>
+                <div class="d-flex">
+                    <dt class="me-2">Book id:</dt>
+                    <dd>{{book.id}}</dd>
+                </div>
+                
+                
+                <div class="d-flex">
+                    <dt class="me-2">Full Name:</dt>
+                    <dd>{{book.book_name}}</dd>
+                </div>
+                
+
+                <div class="d-flex">
+                    <dt class="me-2">Author's Name:</dt>
+                    <dd>{{book.author}}</dd>
+                </div>
+                
+
+                <div class="d-flex">
+                    <dt class="me-2">Stock:</dt>
+                    <dd>{{book.stock}}</dd>
+                </div>
+
+                <div class="d-flex">
+                    <dt class="me-2">Available Copy:</dt>
+                    <dd>{{book.available}}</dd>
+                </div>
+                
+
+
+
+            </dl>
+
+        <a href="{% url 'books' %}" class="btn mt-5 ms-3">Cancel</a>
+
+
+        </div> {% endcomment %}
+
+{% endblock %}

@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %} Closed Records | Library{% endblock %}
+
+{% block content %}
+
+    
+<style>
+.btn1{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:rgba(95, 95, 105, 1);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.btn1:hover {
+    background-color: rgba(33, 32, 32, 1);
+    color: white;
+
+}
+</style>
+
+
+
+
+<section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Closed Records</h3>
+            </div>
+
+
+
+  <div class="container mt-4">
+    {% load static %}
+    
+
+     <form class="form-inline ml-3 " action="{% url 'searchclosed' %}" method="GET">
+      <div class="input-group input-group-sm">
+        {% comment %} <input  name="q" class="form-control form-control-navbar" type="search" value="{{request.GET.q}}" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-navbar" type="submit">
+            <i class="fas fa-search ms-4"></i>
+          </button> {% endcomment %}
+          <input id="searchclosed" name="q" class="form-control" type="search" placeholder="Search">
+        </div>
+      
+    </form>
+    
+    </div>
+
+            <div class="card-body">
+                
+              <table action="/" method="GET" id="example2" class="table table-bordered table-hover">
+ 
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Member Name</th>
+                    <th>Book Name</th>
+                    <th>Author Name</th>
+                    <th>Issued On</th>
+                    <th>Return Date</th>
+                    <th>Returned On</th>
+                    <th>Fine(Rs.)</th>
+
+                </tr>
+            </thead>
+
+            <tbody id="table-body">
+                    {% for record in records %}
+                <tr>
+                    <td>{{record.id}}</td>
+                    <td>{{record.user.full_name}}</td>
+                    <td>{{record.book.book_name}}</td>  
+                    <td>{{record.book.author}}</td>
+                    <td>{{record.issue_date}}</td>
+                    <td>{{record.return_date}}</td>
+                    <td>
+                        {{record.returned_on}}
+                    </td>
+
+                    <td>
+                        {% if record.fine %}
+                            {{ record.fine }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </td>
+
+                    
+                    {% comment %} <td>
+                            <a href="{% url 'open_view' record.id  %}" class="btn btn-sm btn-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="{% url 'open_edit' record.id  %}" class="btn btn-sm btn-warning text-white">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>  {% endcomment %}
+
+                </tr> 
+            
+                
+                </tr> 
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+    </div>
+
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const searchInput = document.getElementById("searchclosed");
+  const tableBody = document.getElementById("table-body");
+
+  searchInput.addEventListener("keyup", function () {
+    let query = this.value.trim();
+
+    fetch("{% url 'searchclosed' %}?q=" + encodeURIComponent(query), {
+      headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+      .then(res => res.json())
+      .then(data => {
+        tableBody.innerHTML = data.html;
+      });
+  });
+});
+</script>
+
+
+{% endblock %}
+
+
+{% comment %} 
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Closed Records</h2>
+    </div>
+
+    <form action="{% url 'searchclosed' %}" method="GET" class="d-flex mb-3" style="max-width: 500px; color: black;">
+        <input type="text"
+            name="q"
+            class="form-control me-2"
+            placeholder="search by user name" 
+            value="{{request.GET.q}}"
+            style="flex-grow: 1;"> 
+            <button type="submit" class="btn1 me-2">Search</button>
+            <a href="{% url 'closed_records' %}" class="btn1">Reset</a>
+        
+        </form>
+    </div>
+
+
+<div class="container mt-5 width-80% table-responsive-md" >
+        <table action="/" id="book" method="GET" class="table table-bordered table-hover align-middle text-center ">
+            <thead class="table-dark">
+                <tr>
+                    <th>Borrow-ID</th>
+                    <th>Member Name</th>
+                    <th>Book Name</th>
+                    <th>Author Name</th>
+                    <th>Issued On</th>
+                    <th>return Date</th>
+                    <th>Returned On</th>
+                    <th>Fine(Rs.)</th>
+
+                </tr>
+            </thead>
+
+            <tbody class="">
+                    {% for record in records %}
+                <tr>
+                    <td>{{record.id}}</td>
+                    <td>{{record.user.full_name}}</td>
+                    <td>{{record.book.book_name}}</td>  
+                    <td>{{record.book.author}}</td>
+                    <td>{{record.issue_date}}</td>
+                    <td>{{record.return_date}}</td>
+                    <td>
+                        {{record.returned_on}}
+                    </td>
+
+                    <td>
+                        {% if record.fine %}
+                            {{ record.fine }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </td>
+
+
+                </tr> 
+            
+                
+                </tr> 
+            {% endfor %}
+            </tbody>
+        </table>
+    </div> {% endcomment %}
+
+

@@ -1,0 +1,187 @@
+
+{% extends "base.html" %}
+
+{% block title %} Borrow a book | Library{% endblock %}
+
+{% block content %}
+
+ 
+<style>
+.btn{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:rgba(95, 95, 105, 1);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.btn:hover {
+    background-color: rgba(33, 32, 32, 1);
+    color: white;
+}
+.error {
+    color: red;
+    font-size: 14px;
+}
+</style> 
+
+
+{% load static %}
+    <h4>Borrow Book</h4>
+
+<div class="card card-secondary">
+  <div class="card-header">
+    <h3 class="card-title">Fill this up:</h3>
+  </div>
+  
+  <form method="POST" action="{% url 'borrow_book' %}" id="borrowForm">
+        {% csrf_token %}
+
+    <div class="card-body">
+      <div class="form-group">
+        <label for="user_id" class="form-label">Member Name:</label>
+        <select class="form-control" id="user_id" name="user_id" required>
+            <option value="">Select</option>
+            {% for user in users %}
+                {% if user.has_active %}
+                    <option value="{{user.id}}" disabled style="color: gray">{{ user.full_name }} (Already has a book)</option>
+                {% else %}
+                    <option value="{{user.id}}">{{ user.full_name }}</option>
+                {% endif %}
+            
+            {% endfor %}
+        </select>
+
+      </div>
+      <div class="form-group">
+        <label for="book_id" class="form-label mt-3">Book Name:</label>
+        <select class="form-control" id="book_id" name="book_id" required>
+            <option value="">Select</option>
+            {% for book in books %}
+                {% if book.available > 0 %}
+                    <option value="{{ book.id }}">{{ book.book_name }}</option>
+                {% else %}
+                    <option value="{{ book.id }}" disabled style= "color: gray"> {{ book.book_name }} (Not Available)</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="issue_date" class="form-label mt-3">Issue Date:</label>
+            <input type="date" class="form-control" id="issue_date" name="issue_date" max="{{today}}" required>
+            <div id="idError" class="error"></div>
+      </div>
+      
+
+      {% comment %} <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div>
+    </div> {% endcomment %}
+   
+    <div class="card-footer">
+        <button type="submit" class="btn mt-5">Issue Book</button>
+        <a href="{% url 'open_records' %}" class="btn mt-5 ms-3">Cancel</a>
+    </div>
+  </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} 
+
+<div class="container mb-5">
+    <h4>Borrow a Book</h4>
+    {% load static %}
+    <form method="POST" action="{% url 'borrow_book' %}" id="borrowForm" >
+        {% csrf_token %}
+
+    <label for="user_id" class="form-label">Member Name:</label>
+    <select class="form-control" id="user_id" name="user_id" required>
+        <option value="">Select</option>
+        {% for user in users %}
+            {% if user.has_active %}
+                <option value="{{user.id}}" disabled style="color: gray">{{ user.full_name }} (Already has a book)</option>
+            {% else %}
+                <option value="{{user.id}}">{{ user.full_name }}</option>
+            {% endif %}
+        
+        {% endfor %}
+    </select>
+
+    <label for="book_id" class="form-label mt-3">Book Name:</label>
+    <select class="form-control" id="book_id" name="book_id" required>
+        <option value="">Select</option>
+        {% for book in books %}
+            {% if book.available > 0 %}
+                <option value="{{ book.id }}">{{ book.book_name }}</option>
+            {% else %}
+                <option value="{{ book.id }}" disabled style= "color: gray"> {{ book.book_name }} (Not Available)</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+
+    <label for="issue_date" class="form-label mt-3">Issue Date:</label>
+    <input type="date" class="form-control" id="issue_date" name="issue_date" max="{{today}}" required>
+    <div id="idError" class="error"></div>
+                        
+    <button type="submit" class="btn mt-5">Issue Book</button>
+    <a href="{% url 'open_records' %}" class="btn mt-5 ms-3">Cancel</a>
+
+         
+    </form>
+</div> {% endcomment %}
+
+<script>
+    const issuedate = document.getElementById("issue_date");
+    const returndate = document.getElementById("return_date");
+    const idError = document.getElementById("idError");
+    const today = new Date().toISOString().split("T")[0];
+
+
+    issuedate.setAttribute("max", today);
+
+    function updatereturndate(){
+        const idError = document.getElementById("idError");
+        if (issuedate.value === '') {
+            returndate.value = '';
+            idError.textContent = "Issue Date is required";
+            return;
+        }
+        else {
+        idError.textContent = "";
+    }
+
+    
+        let issuedate = new Date(issuedate.value);
+        if (!isNaN(issuedate)){
+            let returndate = new Date(issuedate);
+            returndate.setDate(returndate.getDate()+7);
+            returndate.value = returndate.toISOString().split("T")[0];
+    }
+        else{
+            returndate.value="";
+        }
+    }
+    updatereturndate();
+    issuedate.addEventListener("change", updatereturndate);
+
+</script>
+
+{% endblock %}

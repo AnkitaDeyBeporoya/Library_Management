@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block title %} Open Records | Library{% endblock %}
+
+{% block content %}
+
+    
+<style>
+.btn1{
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:rgba(95, 95, 105, 1);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+.btn1:hover {
+    background-color: rgba(33, 32, 32, 1);
+    color: white;
+
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+a.hover{
+    text-decoration: none;
+    background-color: transparent;
+    cursor: default;
+    color: inherit;
+}
+</style>
+
+
+
+
+
+<section class="content">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Open Records</h3>
+            </div>
+
+
+
+<div class="container mt-4">
+    {% load static %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0"></h2>
+        <a href="{% url 'borrow_book' %}" class="btn1 ">Borrow a Book</a>
+    </div>
+
+     <form class="form-inline ml-3 " action="{% url 'searchopen' %}" method="GET">
+      <div class="input-group input-group-sm">
+        {% comment %} <input  name="q" class="form-control form-control-navbar" type="search" value="{{request.GET.q}}" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-navbar" type="submit">
+            <i class="fas fa-search ms-4"></i>
+          </button> {% endcomment %}
+          <input id="searchopen" name="q" class="form-control" type="search" placeholder="Search">
+    
+        </div>
+      
+    </form>
+    
+    </div>
+
+            <div class="card-body">
+                
+              <table action="/" method="GET" id="example2" class="table table-bordered table-hover">
+ 
+            <thead>
+                <tr>
+                    <th>Borrow-ID</th>
+                    <th>User Name</th>
+                    <th>Book Name</th>
+                    <th>Author Name</th>
+                    <th>Issued On</th>
+                    <th>return Date</th>
+                    {% comment %} <th>Returned On</th> {% endcomment %}
+                    <th>Fine(Rs.)</th>
+                    <th>Action</th>
+
+                </tr>
+            </thead>
+
+            <tbody id="table-body">
+                    {% for record in records %}
+                <tr>
+                    <td>{{record.id}}</td>
+                    <td><a href="{% url 'viewuser' record.user.id %}">{{record.user.full_name}}</a></td>
+                    <td>{{record.book.book_name}}</td>  
+                    <td>{{record.book.author}}</td>
+                    <td>{{record.issue_date}}</td>
+                    <td>{{record.return_date}}</td>
+                    
+
+                    <td>
+                        
+                        {{ record.fine }}
+                        
+                    </td>
+
+                    <td>
+                        {% if record.returned_on %}
+                            <span class="badge bg-success">Returned</span>
+                        {% else %}
+                         <form action="{% url 'return_book' record.id %}" method="POST" style="display:inline;" class="return-form">
+                            {% csrf_token %}
+                            {% if record.return_date < today %}
+
+                                <button type="submit" class="btn btn-sm btn-danger">Return & Pay</button>
+                            {% else %}    
+                                <button type="submit" class="btn btn-sm btn-success">Return</button>
+
+                            {% endif %}
+                            </form> 
+                        {% endif %}
+                                
+                </td>
+
+
+                </tr> 
+            
+                
+                </tr> 
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+    </div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const searchInput = document.getElementById("searchopen");
+  const tableBody = document.getElementById("table-body");
+
+  searchInput.addEventListener("keyup", function () {
+    let query = this.value.trim();
+
+    fetch("{% url 'searchopen' %}?q=" + encodeURIComponent(query), {
+      headers: { "X-Requested-With": "XMLHttpRequest" }
+    })
+      .then(res => res.json())
+      .then(data => {
+        tableBody.innerHTML = data.html;
+      });
+  });
+});
+</script>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+    
+    document.querySelectorAll(".return-form").forEach(form => {
+        form.addEventListener("submit", function (e) {
+        if (!confirm("Are you sure you want to return this book?")) {
+            e.preventDefault();
+        }
+        });
+    });
+    });
+
+</script>
+
+{% endblock %}
+

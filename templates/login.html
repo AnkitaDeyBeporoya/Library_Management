@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library-Login Page</title>
+    <style>
+        body{
+            margin: 0%;
+            padding: 0%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* font-family: 'Times New Roman', Times, serif; */
+            background-image: url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container{
+            background-color: rgba(254, 198, 125, 0.792);; 
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow:0 4px 15px rgba(0, 0, 0, 0.2) ;
+            width: 350px;
+            text-align: center;
+            
+        }
+
+        h2{
+            color: rgb(255, 254, 253);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .form-group{
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        /* label{
+            display: block;
+            font-weight: 500;
+            color: rgb(255, 254, 253);
+
+        } */
+
+        input{
+            width: 90%;
+            padding: 12px;
+            border: 5px;
+            font-size: 1rem;
+            border-radius: 7px;
+        }
+        input:focus{
+            outline: none;
+            border-color:#3498db ;
+        }
+
+        button {
+            display: inline-block;
+            width: 90%;
+            padding: 12px;
+            background-color: #7d0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #5d0203;
+        }
+       
+
+
+    </style>
+
+</head>
+<body>
+    <div class="login-container">
+        <h2>Library Login</h2>
+        <form action="/" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="email"></label>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+
+            </div>
+            <div class="form-group">
+                <label for="password"></label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <!-- <div class="btn"> <a href="home.html">Login</a> </div> -->
+            
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- <div style="margin-top: 1rem; text-align: center;"> -->
+
+    </div>
+
+
+    
+</body>
+</html>
+

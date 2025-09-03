@@ -1,0 +1,43 @@
+      {% for book in books %}
+                <tr>
+                    <td>{{book.id}}</td>
+                    <td>{{book.book_name}}</td>  
+                    <td>{{book.author}}</td>
+                    <td>{{book.type}}</td>
+                    <td>{{book.stock}}</td>
+                    <td>{{book.available}}</td>
+
+
+                    <td>
+                    
+                            <a href="{% url 'viewbook' book.id %}" class="btn btn-sm btn-primary">
+                                <i class="nav-icon fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'editbook' book.id %}" class="btn btn-sm btn-warning text-white">
+                                <i class="nav-icon fas fa-pencil"></i>
+                            </a>
+
+                            {% if book.stock != book.available %}
+
+                                <span data-bs-toggle="tooltip" data-bs-placement="left" 
+                                title="This book has an active borrow record, cannot delete.">
+                                <a href="{% url 'deletebook' book.id %}"
+                                class="btn btn-sm btn-secondary disabled" 
+                                tabindex="-1" aria-disabled="true">
+                                <i class="nav-icon fas fa-trash"></i>
+                                </a>
+                            </span>
+
+                            {% else %}
+                                <a href="{% url 'deletebook' book.id %}" class="btn btn-sm btn-danger delete-btn" data-active ="false">
+                                    <i class="nav-icon fas fa-trash"></i>
+                                </a>
+                            {% endif %}
+                        </td> 
+
+                </tr> 
+            
+                
+                </tr> 
+            {% endfor %}
+            

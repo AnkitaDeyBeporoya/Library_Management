@@ -1,0 +1,41 @@
+{% load static %}
+
+{% for record in records %}
+<tr>
+    <td>{{record.id}}</td>
+    <td><a href="{% url 'viewuser' record.user.id %}">{{record.user.full_name}}</a></td>
+    <td>{{record.book.book_name}}</td>  
+    <td>{{record.book.author}}</td>
+    <td>{{record.issue_date}}</td>
+    <td>{{record.return_date}}</td>
+    <td>{{ record.fine }}</td>
+
+    <td>
+        {% if not record.returned_on %}
+            <form action="{% url 'return_book' record.id %}" method="POST" style="display:inline;" class="return-form">
+                
+                {% csrf_token %}
+                {% if record.return_date < today %}
+                    <button type="submit" class="btn btn-sm btn-danger">Return & Pay</button>
+                {% else %}
+                    <button type="submit" class="btn btn-sm btn-success">Return</button>
+                {% endif %}
+            </form>
+        {% else %}
+            <span class="badge bg-success">Returned</span>
+        {% endif %}
+    </td>
+</tr>
+{% endfor %}
+
+{% comment %} <script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".return-form").forEach(form => {
+        form.addEventListener("submit", function (e) {
+            if (!confirm("Are you sure you want to return this book?")) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+</script> {% endcomment %}
