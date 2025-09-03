@@ -1,1 +1,1 @@
-web: gunicorn library.wsgi:application
+web: gunicorn library.wsgi:application --settings=library.production
